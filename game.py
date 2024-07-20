@@ -5,6 +5,7 @@ from random import choice
 import os
 
 class Game:
+
     def __init__(self):
         self.board = Board()
         self.players = None
@@ -12,12 +13,13 @@ class Game:
         self.heading = {
             'title': 'Tic Tac Toe',
             'players_info': '',
-            'next_turn': ''
+            'game_status': ''
         }
         self.is_running = True
+        self.keep_playing = True
+
 
     def play(self) -> None:
-        
         # Get users data
         self.players = self.get_players_data()
 
@@ -25,45 +27,96 @@ class Game:
         
         # Choose random starter
         self.choose_starter()
-        self.heading['next_turn'] = f"{self.players[self.current_player_idx]} starts"
+        self.heading['game_status'] = f"{self.players[self.current_player_idx]} starts"
 
-        while(self.is_running):
+
+        while(self.keep_playing):
+            while(self.is_running):
+                self.current_player_move()
+                if not self.check_round_end():
+                    self.switch_player()
+
+            if not self.play_again():
+                self.clear_screen()
+                print("Quiting...") 
+                break
             
-            self.current_player_move()
-            #self.check_winner()
-            self.switch_player()
 
-        self.clear_screen()
-        print("Quiting...")
 
-    def current_player_move(self):
-        while(True):
+    def play_again(self) -> bool:
+        player_input: str = input("Press Q to exit or enter to play again: ")
+        play_again = not self.has_quited(player_input)
+        
+        if play_again:
+            self.new_round()
+        return play_again
 
+
+    def check_round_end(self) -> bool:
+
+        def show_game_result(self):
+            self.is_running = False
             self.clear_screen()
             self.board.show()
-            player_input = input("Enter your position: ")
+
+        # check for winner
+        if self.board.check_winner():
+            # get winner and add to win count
+            winner = self.players[0] if self.players[0].mark == self.board.winner_mark else self.players[1]
+            winner.win_count += 1
+
+            # set message and restar round
+            self.heading['game_status'] = f"{winner.name} wins!"
+            show_game_result(self)
+            return True
+        
+        if self.board.check_tie():
+            # set message and restar rounds
+            self.heading['game_status'] = f"It's a tie!"
+            show_game_result(self)
+            return True
+        
+        return False
+
+    def new_round(self):
+        self.board.reset()
+        
+        
+
+    def current_player_move(self):
+        
+        input_message = "Enter your position: "
+
+        while(True):
+            self.clear_screen()
+            self.board.show()
+            
+            player_input = input(input_message)
 
             if self.has_quited(player_input):
                 return None
-        
             try:
                 player_input = int(player_input)
-                if player_input in range(1, 10):
+                if player_input in self.board.get_valid_moves():
                     break
+                else:
+                    input_message = "Invalid, enter your position: "
             except Exception as e:
-                pass
+                input_message = "Not a number, enter your position: "
         
         self.board.update_cell(player_input, self.players[self.current_player_idx])
         
+
     def switch_player(self) -> None:
         self.current_player_idx = 1 if self.current_player_idx == 0 else 0
-        self.heading['next_turn'] = f'Is {self.players[self.current_player_idx]} turn'
+        self.heading['game_status'] = f'Is {self.players[self.current_player_idx]} turn'
           
+
     def clear_screen(self) -> None:
         os.system('clear')
-
         for text in self.heading.values():
             self.print_centered(text)
+
 
     def print_centered(self, text: str) -> None:
         term_width = os.get_terminal_size()[0]
@@ -71,17 +124,20 @@ class Game:
         spcs = int((term_width - text_len) / 2)
         print(f"{" " * spcs}{text}")
 
+
     def has_quited(self, player_input: str) -> bool:
         if isinstance(player_input, str):
             if player_input.upper() == "Q":
                 self.is_running = False
+                self.keep_playing = False
                 return True
-            else:
-                return False
+            return False
+
         
     def choose_starter(self) -> None:
         self.current_player_idx = choice([0, 1])
         return None
+
 
     def set_heading(self) -> None:
         self.heading['players_info'] = (
@@ -91,30 +147,33 @@ class Game:
             "\n"
         )
 
+
     def get_player_name(self, player_id: str) -> str:
         self.clear_screen()
-        player_name = input(f"{player_id}, enter your name: \n")
+        player_input = input(f"{player_id}, enter your name: \n")
 
-        if self.has_quited(player_name):
+        if self.has_quited(player_input):
             return None
-        if not player_name:
+        if not player_input:
             return player_id
         else:
-            return player_name.split()[0].title()
+            return player_input.split()[0].title()
+
 
     def get_player_mark(self, player_name: str, player_id: str) -> str:
         self.clear_screen()
-        player_mark = input(f"{player_name}, X or O?: \n").upper()
+        player_input = input(f"{player_name}, X or O?: \n").upper()
 
-        if self.has_quited(player_mark):
+        if self.has_quited(player_input):
             return None
-        if not player_mark:
+        if not player_input:
             return "X" if player_id == "Player 1" else "O"
-        elif player_mark not in ["X", "O"]:
+        elif player_input not in ["X", "O"]:
             self.clear_screen()
             input("Not valid, try again:  X or O?: \n")
         else:
-            return player_mark
+            return player_input
+
 
     def get_players_data(self) -> list[Player]:
         players: list[Player] = []
