@@ -46,7 +46,7 @@ class Board:
         return False
 
     def check_tie(self):
-        pass
+        return ' ' not in self.grid
 
     def reset(self):
         self.grid = [' ' for _ in range(9)]

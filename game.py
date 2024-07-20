@@ -13,6 +13,7 @@ class Game:
         self.heading = {
             'title': 'Tic Tac Toe',
             'players_info': '',
+            'scores': '',
             'game_status': ''
         }
         self.is_running = True
@@ -24,32 +25,36 @@ class Game:
         self.players = self.get_players_data()
 
         self.set_heading()
-        
-        # Choose random starter
-        self.choose_starter()
-        self.heading['game_status'] = f"{self.players[self.current_player_idx]} starts"
-
 
         while(self.keep_playing):
+
+            self.new_round()
             while(self.is_running):
                 self.current_player_move()
                 if not self.check_round_end():
                     self.switch_player()
-
-            if not self.play_again():
-                self.clear_screen()
-                print("Quiting...") 
-                break
+            if self.keep_playing:
+                if not self.play_again():
+                    break
+        
+        self.quit_game()
             
+    def quit_game(self):
+        if self.players[0].win_count > self.players[1].win_count:
+            game_result = f"{self.players[0].name} Wins!"
+        elif self.players[0].win_count < self.players[1].win_count:
+            game_result = f"{self.players[1].name} Wins!"
+        else:
+            game_result = "It's a tie!"
 
+        self.heading['game_status'] = game_result
+        self.clear_screen()
+        self.print_centered("Quiting, thank you for playing")
+        print("\n" * 3) 
 
     def play_again(self) -> bool:
         player_input: str = input("Press Q to exit or enter to play again: ")
-        play_again = not self.has_quited(player_input)
-        
-        if play_again:
-            self.new_round()
-        return play_again
+        return not self.has_quited(player_input)
 
 
     def check_round_end(self) -> bool:
@@ -79,9 +84,14 @@ class Game:
         return False
 
     def new_round(self):
+        self.is_running = True
         self.board.reset()
+        self.choose_starter()
+        self.heading['game_status'] = f"{self.players[self.current_player_idx]} starts"
+        self.update_scores()
         
-        
+    def update_scores(self):
+        self.heading['scores'] = f"{self.players[0].win_count} - {self.players[1].win_count}"
 
     def current_player_move(self):
         
@@ -114,8 +124,11 @@ class Game:
 
     def clear_screen(self) -> None:
         os.system('clear')
-        for text in self.heading.values():
-            self.print_centered(text)
+        for key, value in self.heading.items():
+            self.print_centered(value)
+            if key == 'scores':
+                print("")
+        print("\n" * 3)
 
 
     def print_centered(self, text: str) -> None:
@@ -144,7 +157,6 @@ class Game:
             f"{self.players[0].name} ({self.players[0].mark})"
             "    VS    "
             f"{self.players[1].name} ({self.players[1].mark})"
-            "\n"
         )
 
 
