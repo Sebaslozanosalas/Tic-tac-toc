@@ -1,4 +1,8 @@
 from board import Board
+from player import Player
+
+from random import choice
+import os
 
 class Game:
     def __init__(self):
@@ -29,18 +33,15 @@ class Game:
             #self.check_winner()
             self.switch_player()
 
-            # 
-
-
         self.clear_screen()
         print("Quiting...")
 
     def current_player_move(self):
-        self.clear_screen()
-        self.board.show()
-        
         while(True):
-            player_input = input("Enter your position: \n")
+
+            self.clear_screen()
+            self.board.show()
+            player_input = input("Enter your position: ")
 
             if self.has_quited(player_input):
                 return None
@@ -49,10 +50,8 @@ class Game:
                 player_input = int(player_input)
                 if player_input in range(1, 10):
                     break
-                else:
-                    print("Invalid option, enter (1-9): ")    
             except Exception as e:
-                print("Not a number, enter (1-9): ")
+                pass
         
         self.board.update_cell(player_input, self.players[self.current_player_idx])
         

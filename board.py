@@ -1,5 +1,6 @@
 from player import Player
 
+
 class Board:
     def __init__(self):
         self.grid = [' ' for _ in range(9)]
