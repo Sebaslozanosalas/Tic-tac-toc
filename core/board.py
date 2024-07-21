@@ -2,18 +2,16 @@ from core.player import Player
 
 
 class Board:
+
     def __init__(self):
-        self.reset()
+        self.new()
         self.winner_mark = None
 
-    def show(self):
-        print()
-        for i in range(1, 10, 3):
-            print(f' {self.grid[i-1]} | {self.grid[i]} | {self.grid[i+1]}      {i},{i+1},{i+2}')
-            if i < 6:
-                print(f'-----------')
-        print()
+
+    def new(self):
+        self.grid = [' ' for _ in range(9)]
     
+
     def get_valid_moves(self) -> list[int]:
         valid_moves: list[int] = []
         for i in range(len(self.grid)):
@@ -25,6 +23,7 @@ class Board:
     def update_cell(self, loc: str, player: Player):
         idx = loc - 1
         self.grid[idx] = player.mark
+
 
     def check_winner(self) -> bool:
         win_combos: list[list[int]] = [
@@ -45,8 +44,6 @@ class Board:
                 return True
         return False
 
+
     def check_tie(self):
         return ' ' not in self.grid
-
-    def reset(self):
-        self.grid = [' ' for _ in range(9)]
