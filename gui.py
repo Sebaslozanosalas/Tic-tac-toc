@@ -1,3 +1,5 @@
+from shapes import Line, Cross, Circle, Grid
+
 import pygame
 
 
@@ -8,7 +10,7 @@ class GUI:
         self.height = 700
 
         self.color_darker = '#262626'
-        self.color_dark = '#2C2C2C'
+        self.color_dark = '#4C4C4C'
         self.color_accent = '#FF914D'
 
         self.screen = None
@@ -23,13 +25,7 @@ class GUI:
         pygame.display.set_caption('Tic Tac Toe by Seb')
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.clock = pygame.time.Clock()
-
-
-    def handle_events(self):
-        """pygame.QUIT event means the user clicked X to close your window"""
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                self.running = False
+        self.all_sprites = pygame.sprite.Group()
 
 
     def run(self):
@@ -37,65 +33,51 @@ class GUI:
         while self.running:
             self.handle_events()
             self.screen.fill(self.color_darker)
-            # self.draw_rect()
             self.draw_grid()
             self.draw_title()
-            pygame.display.flip()
+            self.update()
             self.dt = self.clock.tick(self.fps) / 1000
         pygame.quit()
 
 
-    def draw_rect(self):
-        # game area square
-        screen_width, screen_height = self.screen.get_width(), self.screen.get_height()
-        margin = 0.03
+    def handle_events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.running = False
 
-        box_size = screen_width - ((screen_width * margin) * 2)
-        # calcular posicion centrada
-        left_pos = (screen_width * margin)
-        top_pos = screen_height - (box_size + (screen_width * margin))
 
-        my_rect = pygame.Rect(left_pos, top_pos, box_size, box_size)
+    def update(self):
+        self.all_sprites.update(self.dt)
+        self.all_sprites.draw(self.screen)
+        pygame.display.update()
 
-        pygame.draw.rect(self.screen, self.color_dark, my_rect)
 
     def draw_grid(self):
-
         screen_width, screen_height = self.screen.get_width(), self.screen.get_height()
 
         # Constants
-        GRID_MARGIN_RATIO = 0.02
-        GRID_COLOR = '#2F2F2F'
+        GRID_MARGIN_RATIO = 0.05
+        GRID_COLOR = self.color_accent
 
         # Game grid
-        grid_margin = screen_width * GRID_MARGIN_RATIO
+        grid_margin = int(screen_width * GRID_MARGIN_RATIO)
 
         grid_size = screen_width - (grid_margin * 2)
-        grid_line_width = grid_margin
+        grid_line_width = grid_margin // 2
+        grid_xpos = grid_margin
+        grid_ypos = int(screen_height - grid_margin - grid_size)
 
-        # Calculate positions for horizontal lines
-        left_pos = grid_margin
-        top_positions = [
-            screen_height - grid_line_width - ((grid_size / 3) * 2) - (grid_line_width / 2),
-            screen_height - grid_line_width - ((grid_size / 3) * 1)  - (grid_line_width / 2)
-        ]
+        grid = Grid(
+            grid_xpos = grid_xpos,
+            grid_ypos = grid_ypos,
+            grid_size = grid_size,
+            grid_margin = grid_margin,
+            grid_line_width = grid_line_width,
+            grid_color = GRID_COLOR
+        )
+        self.all_sprites.add(grid.get_sprites())
 
-        # Draw horizontal lines
-        for top_pos in top_positions:
-            grid_line = pygame.Rect(left_pos, top_pos, grid_size, grid_line_width)
-            pygame.draw.rect(self.screen, GRID_COLOR, grid_line)
 
-        # Calculate positions for vertical lines
-        top_pos = screen_height - grid_margin - grid_size
-        left_positions = [
-            grid_line_width + ((grid_size / 3) * 1) - (grid_line_width / 2),
-            grid_line_width + ((grid_size / 3) * 2) - (grid_line_width / 2)
-        ]
-
-        # Draw vertical lines
-        for left_pos in left_positions:
-            grid_line = pygame.Rect(left_pos, top_pos, grid_line_width, grid_size)
-            pygame.draw.rect(self.screen, GRID_COLOR, grid_line)            
 
     def draw_title(self):
         font = pygame.font.Font('freesansbold.ttf', 32)
