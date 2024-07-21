@@ -2,9 +2,8 @@ import pygame
 
 class Line(pygame.sprite.Sprite):
 
-    def __init__(self, position: tuple, line_size: tuple, color):
+    def __init__(self, position: tuple, line_size: tuple, color='white'):
         super().__init__()
-        self.image = None
         self.color = color
         self.create_line_shape(line_size)
         self.rect.center = position
@@ -25,6 +24,7 @@ class Line(pygame.sprite.Sprite):
 
 
     def rotate(self, angle):
+        old_center = self.rect.center
         self.image = pygame.transform.rotate(self.image, angle)
-        self.rect = self.image.get_rect()
+        self.rect = self.image.get_rect(center=old_center)
     

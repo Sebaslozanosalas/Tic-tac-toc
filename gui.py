@@ -1,4 +1,4 @@
-from shapes import Line, Cross, Circle, Grid
+from shapes import Cross, Circle, Grid
 
 import pygame
 
@@ -34,6 +34,7 @@ class GUI:
             self.handle_events()
             self.screen.fill(self.color_darker)
             self.draw_grid()
+            self.draw_cross()
             self.draw_title()
             self.update()
             self.dt = self.clock.tick(self.fps) / 1000
@@ -67,7 +68,7 @@ class GUI:
         grid_xpos = grid_margin
         grid_ypos = int(screen_height - grid_margin - grid_size)
 
-        grid = Grid(
+        self.grid = Grid(
             grid_xpos = grid_xpos,
             grid_ypos = grid_ypos,
             grid_size = grid_size,
@@ -75,9 +76,18 @@ class GUI:
             grid_line_width = grid_line_width,
             grid_color = GRID_COLOR
         )
-        self.all_sprites.add(grid.get_sprites())
+        self.all_sprites.add(self.grid.get_sprites())
 
 
+    def draw_cross(self):
+        
+        for position in self.grid.get_cell_coordinates():
+            cross = Cross(
+                position=position,
+                line_size=(self.grid.grid_size // 3, self.grid.grid_line_width),
+                color=self.color_accent
+            )
+            self.all_sprites.add(cross.get_sprites())
 
     def draw_title(self):
         font = pygame.font.Font('freesansbold.ttf', 32)
