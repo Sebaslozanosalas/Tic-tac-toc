@@ -1,5 +1,5 @@
-from board import Board
-from player import Player
+from core.board import Board
+from core.player import Player
 
 from random import choice
 import os

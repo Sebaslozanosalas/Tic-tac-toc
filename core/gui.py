@@ -1,4 +1,6 @@
-from shapes import Cross, Circle, Grid
+from shapes.cross import Cross
+from shapes.circle import Circle
+from shapes.grid import Grid
 
 import pygame
 from random import choice
@@ -59,14 +61,14 @@ class GUI:
         screen_width, screen_height = self.screen.get_width(), self.screen.get_height()
 
         # Constants
-        GRID_MARGIN_RATIO = 0.1
+        GRID_MARGIN_RATIO = 0.05
         GRID_COLOR = self.color_accent
 
         # Game grid
         grid_margin = int(screen_width * GRID_MARGIN_RATIO)
 
         grid_size = screen_width - (grid_margin * 2)
-        grid_line_width = grid_margin // 4
+        grid_line_width = grid_margin // 2
         grid_xpos = grid_margin
         grid_ypos = int(screen_height - grid_margin - grid_size)
 

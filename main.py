@@ -1,9 +1,11 @@
-from game import Game
-from gui import GUI
+from core.game import Game
+from core.gui import GUI
+
+
+def main():
+    gui = GUI()
+    gui.run()
 
 
 if __name__ == "__main__":
-    gui = GUI()
-    gui.run()
-    # game = Game()
-    # game.play()
+    main()
