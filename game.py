@@ -39,6 +39,7 @@ class Game:
         
         self.quit_game()
             
+
     def quit_game(self):
         if self.players[0].win_count > self.players[1].win_count:
             game_result = f"{self.players[0].name} Wins!"
@@ -51,6 +52,7 @@ class Game:
         self.clear_screen()
         self.print_centered("Quiting, thank you for playing")
         print("\n" * 3) 
+
 
     def play_again(self) -> bool:
         player_input: str = input("Press Q to exit or enter to play again: ")
@@ -83,15 +85,18 @@ class Game:
         
         return False
 
+
     def new_round(self):
         self.is_running = True
         self.board.reset()
         self.choose_starter()
         self.heading['game_status'] = f"{self.players[self.current_player_idx]} starts"
         self.update_scores()
-        
+
+
     def update_scores(self):
         self.heading['scores'] = f"{self.players[0].win_count} - {self.players[1].win_count}"
+
 
     def current_player_move(self):
         
