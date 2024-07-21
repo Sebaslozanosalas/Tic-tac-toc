@@ -13,7 +13,6 @@ class Line(pygame.sprite.Sprite):
         length, width = line_size
         self.image = pygame.Surface((length, width), pygame.SRCALPHA)
         
-        # Dibujar el rectángulo 
         pygame.draw.rect(
             surface=self.image,
             color=self.color,

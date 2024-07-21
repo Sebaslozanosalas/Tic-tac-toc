@@ -1,6 +1,7 @@
 from shapes import Cross, Circle, Grid
 
 import pygame
+from random import choice
 
 
 class GUI:
@@ -20,12 +21,15 @@ class GUI:
         self.fps = 60
 
 
+
     def setup(self):
         pygame.init()
         pygame.display.set_caption('Tic Tac Toe by Seb')
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.clock = pygame.time.Clock()
         self.all_sprites = pygame.sprite.Group()
+        self.draw_grid()
+        self.draw_shapes()
 
 
     def run(self):
@@ -33,8 +37,6 @@ class GUI:
         while self.running:
             self.handle_events()
             self.screen.fill(self.color_darker)
-            self.draw_grid()
-            self.draw_cross()
             self.draw_title()
             self.update()
             self.dt = self.clock.tick(self.fps) / 1000
@@ -79,15 +81,25 @@ class GUI:
         self.all_sprites.add(self.grid.get_sprites())
 
 
-    def draw_cross(self):
-        
+    def draw_shapes(self):
         for position in self.grid.get_cell_coordinates():
-            cross = Cross(
-                position=position,
-                line_size=(self.grid.grid_size // 3, self.grid.grid_line_width),
-                color=self.color_accent
-            )
-            self.all_sprites.add(cross.get_sprites())
+            if choice([True, False]):
+                cross = Cross(
+                    position=position,
+                    line_size=(self.grid.grid_size // 3, self.grid.grid_line_width),
+                    color=self.color_accent
+                )
+                self.all_sprites.add(cross.get_sprites())
+            else:
+                circle = Circle(
+                    position=position,
+                    size=(self.grid.grid_cell_size - (self.grid.grid_line_width) * 3),
+                    line_width=self.grid.grid_line_width,
+                    color=self.grid.grid_color
+                )
+                self.all_sprites.add(circle)
+
+
 
     def draw_title(self):
         font = pygame.font.Font('freesansbold.ttf', 32)
