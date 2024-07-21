@@ -61,37 +61,41 @@ class GUI:
 
     def draw_grid(self):
 
-        grid_color = '#2F2F2F'
-
-        # game area square
         screen_width, screen_height = self.screen.get_width(), self.screen.get_height()
-        margin = 0.02
 
-        box_size = screen_width - ((screen_width * margin) * 2)
-        grid_length = box_size
-        grid_width = screen_width * margin
+        # Constants
+        GRID_MARGIN_RATIO = 0.02
+        GRID_COLOR = '#2F2F2F'
 
-        # draw horizontal lines
-        left_pos = margin * screen_width
-        top_pos = screen_height - grid_width - ((box_size / 3) * 2) - (grid_width / 2)
-        my_rect = pygame.Rect(left_pos, top_pos, grid_length, grid_width)
-        pygame.draw.rect(self.screen, grid_color, my_rect)
-        
-        top_pos = screen_height - grid_width - ((box_size / 3) * 1)  - (grid_width / 2) # update
-        my_rect = pygame.Rect(left_pos, top_pos, grid_length, grid_width)
-        pygame.draw.rect(self.screen, grid_color, my_rect)
+        # Game grid
+        grid_margin = screen_width * GRID_MARGIN_RATIO
 
+        grid_size = screen_width - (grid_margin * 2)
+        grid_line_width = grid_margin
 
-        # draw vertical lines
-        left_pos = grid_width + ((box_size / 3) * 1) - (grid_width / 2)
-        top_pos = screen_height - (box_size + (screen_width * margin))
-        my_rect = pygame.Rect(left_pos, top_pos, grid_width, grid_length)
-        pygame.draw.rect(self.screen, grid_color, my_rect)
-        
-        left_pos = grid_width + ((box_size / 3) * 2) - (grid_width / 2)
-        my_rect = pygame.Rect(left_pos, top_pos, grid_width, grid_length)
-        pygame.draw.rect(self.screen, grid_color, my_rect)
+        # Calculate positions for horizontal lines
+        left_pos = grid_margin
+        top_positions = [
+            screen_height - grid_line_width - ((grid_size / 3) * 2) - (grid_line_width / 2),
+            screen_height - grid_line_width - ((grid_size / 3) * 1)  - (grid_line_width / 2)
+        ]
 
+        # Draw horizontal lines
+        for top_pos in top_positions:
+            grid_line = pygame.Rect(left_pos, top_pos, grid_size, grid_line_width)
+            pygame.draw.rect(self.screen, GRID_COLOR, grid_line)
+
+        # Calculate positions for vertical lines
+        top_pos = screen_height - grid_margin - grid_size
+        left_positions = [
+            grid_line_width + ((grid_size / 3) * 1) - (grid_line_width / 2),
+            grid_line_width + ((grid_size / 3) * 2) - (grid_line_width / 2)
+        ]
+
+        # Draw vertical lines
+        for left_pos in left_positions:
+            grid_line = pygame.Rect(left_pos, top_pos, grid_line_width, grid_size)
+            pygame.draw.rect(self.screen, GRID_COLOR, grid_line)            
 
     def draw_title(self):
         font = pygame.font.Font('freesansbold.ttf', 32)
