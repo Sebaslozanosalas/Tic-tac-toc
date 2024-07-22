@@ -12,37 +12,25 @@ class Board:
         self.grid = [' ' for _ in range(9)]
     
 
-    def get_valid_moves(self) -> list[int]:
-        valid_moves: list[int] = []
-        for i in range(len(self.grid)):
-            if self.grid[i] == ' ':
-                valid_moves.append(i+1)
-        return valid_moves
+    def get_valid_moves(self):
+        return [i + 1 for i in range(len(self.grid)) if self.grid[i] == ' ']
+    
+
+    def update_cell(self, idx, mark):
+        self.grid[idx] = mark
 
 
-    def update_cell(self, loc: str, player: Player):
-        idx = loc - 1
-        self.grid[idx] = player.mark
-
-
-    def check_winner(self) -> bool:
-        win_combos: list[list[int]] = [
-            [0,1,2],
-            [3,4,5],
-            [6,7,8],
-
-            [0,3,6],
-            [1,4,7],
-            [2,5,8],
-
-            [0,4,8],
-            [2,4,6],
+    def check_win(self):
+        win_combinatios = [
+            [0,1,2], [3,4,5],
+            [6,7,8], [0,3,6],
+            [1,4,7], [2,5,8],
+            [0,4,8], [2,4,6],
         ]
-        for combo in win_combos:
-            if self.grid[combo[0]] == self.grid[combo[1]] == self.grid[combo[2]] != ' ':
-                self.winner_mark = self.grid[combo[0]]
-                return True
-        return False
+        for comb in win_combinatios:
+            if self.grid[comb[0]] == self.grid[comb[1]] == self.grid[comb[2]] != ' ':
+                return self.grid[comb[0]]
+        return None
 
 
     def check_tie(self):
