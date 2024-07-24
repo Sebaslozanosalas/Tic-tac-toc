@@ -1,14 +1,18 @@
 from screens.screen import Screen
+from core.gui import GUI
+
 import pygame
 
 class GameScreen(Screen):
 
-    def __init__(self, screen_manager):
-        super().__init__(screen_manager)
+    def __init__(self, screen_manager, settings_manager):
+        super().__init__(screen_manager, settings_manager)
+        self.load_configuration_file()
 
 
     def handle_events(self, event):
-        pass
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+            self.screen_manager.set_screen('welcome')
 
 
     def update(self):
@@ -16,10 +20,11 @@ class GameScreen(Screen):
 
 
     def draw(self, screen):
-        screen.fill((0, 0, 0))
-        font = pygame.font.Font('freesansbold.ttf', 32)
-        title = font.render('Game Screen', True, 'orange')
-        titleRect = title.get_rect()
-        titleRect.center = (screen.get_width() // 2, 50)
-        screen.blit(title, titleRect)
+        bg_color = self.settings.get('styles').get('background_color')
+        accent_color = self.settings.get('styles').get('accent_color')
+        GUI.draw_background(screen, bg_color)
+        GUI.draw_title(screen, 'Ready to play', accent_color)
 
+
+    def load_configuration_file(self):
+        self.settings = self.settings_manager.get_settings()

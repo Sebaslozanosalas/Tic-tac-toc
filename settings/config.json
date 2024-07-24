@@ -1,5 +1,10 @@
 {
-    "background_color": "#262626",
-    "text_color": "",
-    "shape_color": ""
+    "screen":{
+        "width": 500,
+        "height": 700
+    },
+    "styles":{
+        "background_color": "#262626",
+        "accent_color":"#FF914D"
+    }
 }
