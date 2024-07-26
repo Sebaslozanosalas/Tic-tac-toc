@@ -1,7 +1,6 @@
 import pygame
 
 class Circle(pygame.sprite.Sprite):
-    
     def __init__(self, position, size, line_width, color='white'):
         super().__init__()
         self.position = position
@@ -10,6 +9,7 @@ class Circle(pygame.sprite.Sprite):
         self.color = color
         self.create()
         self.rect.center = position
+
 
     def create(self):
         self.image = pygame.Surface((self.size, self.size), pygame.SRCALPHA)
@@ -21,3 +21,5 @@ class Circle(pygame.sprite.Sprite):
             width=self.line_width
         )
         self.rect = self.image.get_rect()
+
+        

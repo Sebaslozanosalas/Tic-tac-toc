@@ -18,9 +18,9 @@ class ScreenManager:
             self.current_screen.handle_events(event)
 
 
-    def update(self):
+    def update(self, dt):
         if self.current_screen:
-            self.current_screen.update()
+            self.current_screen.update(dt)
 
 
     def draw(self, surface):

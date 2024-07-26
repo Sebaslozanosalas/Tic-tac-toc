@@ -1,9 +1,9 @@
 class Player:
-    def __init__(self, id: str, name: str, mark: str):
+    def __init__(self, id, mark):
         self.id = id
-        self.name = name
         self.mark = mark
         self.win_count = 0
     
     def __str__(self):
-        return self.name
+        return f'{self.id} ({self.mark})'
+    

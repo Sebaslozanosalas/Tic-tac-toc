@@ -1,8 +1,4 @@
-from core.player import Player
-
-
 class Board:
-
     def __init__(self):
         self.new()
         self.winner_mark = None
@@ -35,3 +31,4 @@ class Board:
 
     def check_tie(self):
         return ' ' not in self.grid
+    

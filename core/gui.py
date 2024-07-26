@@ -8,6 +8,40 @@ from random import choice
 
 class GUI:
 
+    @staticmethod
+    def draw_title(screen, title, color, position, font_size=32):
+        font = pygame.font.Font('freesansbold.ttf', font_size)
+        title = font.render(title, True, color)
+        titleRect = title.get_rect()
+        titleRect.center = (position)
+        screen.blit(title, titleRect)
+
+
+    @staticmethod
+    def draw_background(screen, color):
+        screen.fill(color)
+
+
+    @staticmethod
+    def draw_cross(position, line_size, color):
+        cross = Cross(
+            position=position,
+            line_size=line_size,
+            color=color
+        )
+        return cross
+    
+
+    @staticmethod
+    def draw_circle(position, size, line_width, color):
+        circle = Circle(
+            position=position,
+            size=size,
+            line_width=line_width,
+            color=color
+        )
+        return circle
+
     # def __init__(self):
     #     self.width = 500
     #     self.height = 700
@@ -104,15 +138,3 @@ class GUI:
 
 
 
-    @staticmethod
-    def draw_title(screen, title, color):
-        font = pygame.font.Font('freesansbold.ttf', 32)
-        title = font.render(title, True, color)
-        titleRect = title.get_rect()
-        titleRect.center = (screen.get_width() // 2, 50)
-        screen.blit(title, titleRect)
-
-
-    @staticmethod
-    def draw_background(screen, color):
-        screen.fill(color)

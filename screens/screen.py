@@ -4,7 +4,6 @@ from screens import *
 import pygame
 
 class Screen:
-
     def __init__(self, screen_manager, settings_manager=None):
         self.screen_manager = screen_manager
         self.settings_manager = settings_manager
@@ -14,7 +13,7 @@ class Screen:
         pass
 
 
-    def update(self):
+    def update(self, dt):
         pass
 
 

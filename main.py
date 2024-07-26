@@ -5,13 +5,13 @@ from settings import *
 import pygame
 
 class App:
-
     def __init__(self):
         self.running = True
         self.title = 'Tic Tac Toe by Seb'
         self.width = 500
         self.height = 700
         self.fps = 60
+        self.dt = None
         
 
     def setup(self):
@@ -20,16 +20,26 @@ class App:
         self.all_sprites = pygame.sprite.Group()
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.clock = pygame.time.Clock()
-
+        
         # Create SettingsmManager
         self.settings_manager = SettingsManager()
+        game = Game()
 
         # Create ScreenManager and Screens
         self.screen_manager = ScreenManager()
-        self.screen_manager.add_screen('welcome', WelcomeScreen(self.screen_manager, self.settings_manager))
-        self.screen_manager.add_screen('game', GameScreen(self.screen_manager, self.settings_manager))
+        self.screen_manager.add_screen(
+            'welcome', WelcomeScreen(self.screen_manager, self.settings_manager, game)
+        )
+        self.screen_manager.add_screen(
+            'game', PlayingScreen(self.screen_manager, self.settings_manager, game)
+        )
+        self.screen_manager.add_screen(
+            'selection', SelectionScreen(self.screen_manager, self.settings_manager, game)
+        )
+
         # Set Welcome Screen
         self.screen_manager.set_screen('welcome')
+
 
     def run(self):
         self.setup()
@@ -41,10 +51,10 @@ class App:
                     self.running = False
                 self.screen_manager.handle_events(event)
 
-            self.screen_manager.update()
+            self.screen_manager.update(self.dt)
             self.screen_manager.draw(self.screen)
             pygame.display.update()
-            dt = self.clock.tick(self.fps) / 1000
+            self.dt = self.clock.tick(self.fps) / 1000
 
         pygame.quit()
 
@@ -52,3 +62,4 @@ class App:
 if __name__ == "__main__":
     app = App()
     app.run()
+

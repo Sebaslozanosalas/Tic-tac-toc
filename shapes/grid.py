@@ -3,7 +3,6 @@ from shapes.line import Line
 import pygame
 
 class Grid:
-
     def __init__(self, grid_xpos, grid_ypos, grid_size, grid_margin, grid_line_width, grid_color):
         self.bg_color = '#696969'
         self.all_sprites = pygame.sprite.Group()
@@ -21,9 +20,7 @@ class Grid:
 
 
     def create(self):
-
         grid_center = self.grid_size // 2
-
         # Draw horizontal lines
         for i in range(1, 3):
             h_line = Line(
@@ -70,3 +67,4 @@ class Grid:
                 all_positions.append((x_pos, y_pos))
 
         return all_positions
+    
