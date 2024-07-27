@@ -1,5 +1,6 @@
-from screens.screen import Screen
-from core.Renderer import Renderer
+from .screen import Screen
+
+from core import *
 
 import pygame
 

@@ -1,9 +1,8 @@
-from core.board import Board
-from core.player import Player
+from models import *
 
 class Game:
     def __init__(self):
-        self.board = Board()
+        self.board = Board
         self.players = []
         self.current_player = None 
         self.keep_playing = True

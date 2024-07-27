@@ -1,6 +1,4 @@
-from shapes.cross import Cross
-from shapes.circle import Circle
-from shapes.grid import Grid
+from shapes import *
 
 import pygame
 
@@ -62,6 +60,7 @@ class Renderer:
             grid_color = grid_color
         )
     
+    @staticmethod
     def draw_marker_on_board(self, pos, mark, color):
         if mark == 'X':
             self.create_cross()

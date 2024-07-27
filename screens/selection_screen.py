@@ -1,5 +1,7 @@
-from screens.screen import Screen
+from .screen import Screen
+
 from core import *
+from models import *
 
 from random import choice
 import pygame
