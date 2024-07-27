@@ -1,6 +1,6 @@
 # Just a simple Tic Tac Toe
 
-## V2 Improved designed 
+## V2 Improved design
 ![New Project](https://github.com/user-attachments/assets/2d558c11-1366-4959-bb95-7a4b35cf3a7f)
 
 
