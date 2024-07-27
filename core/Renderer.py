@@ -6,7 +6,7 @@ class Renderer:
 
     @staticmethod
     def draw_title(screen, title, color, position, font_size=32):
-        font = pygame.font.Font('freesansbold.ttf', font_size)
+        font = pygame.font.Font('assets/fonts/Valorax-lg25V.otf', font_size)
         title = font.render(title, True, color)
         titleRect = title.get_rect()
         titleRect.center = (position)

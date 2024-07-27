@@ -1,6 +1,5 @@
 env/
 venv/
-assets/
 
 *.pyc
 __pycache__/

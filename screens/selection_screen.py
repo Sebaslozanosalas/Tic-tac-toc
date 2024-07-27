@@ -40,8 +40,9 @@ class SelectionScreen(Screen):
         Renderer.draw_background(screen, self.background_color)
 
         # Texts
-        Renderer.draw_title(screen, 'Player 1, choose your Mark',self.accent_color, (self.screen_width // 2, 100), 30)
-        Renderer.draw_title(screen, 'or press enter for random', self.accent_color, (self.screen_width // 2, 130), 16)
+        Renderer.draw_title(screen, 'Player 1',self.accent_color, (self.screen_width // 2, 100), 30)
+        Renderer.draw_title(screen, 'Choose your Mark',self.accent_color, (self.screen_width // 2, 130), 30)
+        Renderer.draw_title(screen, 'or press enter for random', '#9da222', (self.screen_width // 2, 160), 12)
 
         # Markers to choose
         self.draw_markers_to_choose()

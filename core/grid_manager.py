@@ -23,7 +23,8 @@ class GridManager:
             size = grid_size,
             margin = grid_margin,
             line_width = grid_line_width,
-            color = color
+            color = '#9da222'
+            # color = color
         )
     
 

@@ -9,6 +9,7 @@ class Screen:
         self.settings_manager = settings_manager
         self.sprites = pygame.sprite.Group()
 
+
     def handle_events(self, event):
         pass
 
@@ -17,6 +18,7 @@ class Screen:
         pass
 
 
-
     def draw(self, screen):
         pass
+
+    

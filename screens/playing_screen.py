@@ -16,7 +16,7 @@ class PlayingScreen(Screen):
         self.accent_color = self.styles.get('accent_color')
 
         self.grid = None
-        self.grid_sprites = pygame.sprite.Group()
+        self.sprites = pygame.sprite.Group()
 
         self.initialized = False
 
@@ -32,21 +32,21 @@ class PlayingScreen(Screen):
 
 
     def update(self, dt):
-        self.grid_sprites.update(dt)
+        self.sprites.update(dt)
 
 
     def draw(self, screen):
         if not self.initialized:
             self.screen_setup(screen)
-
-        Renderer.draw_background(screen, self.background_color)
-
-        Renderer.draw_title(screen, 'Playing...', self.accent_color, (self.screen_width // 2, 100), 45)
-
-        heading = f'{self.game.players[0]}   VS   {self.game.players[1]}'
-        Renderer.draw_title(screen, heading, self.accent_color, (self.screen_width // 2, 160), 20)
         
-        self.grid_sprites.draw(screen)
+        # Print heading
+        Renderer.draw_background(screen, self.background_color)
+        Renderer.draw_title(screen, f'{self.game.current_player}', self.accent_color, (self.screen_width // 2, 100), 35)
+        # Print versus heading
+        heading = f'{self.game.players[0]}   VS   {self.game.players[1]}'
+        Renderer.draw_title(screen, heading, '#9da222', (self.screen_width // 2, 140), 20)
+        
+        self.sprites.draw(screen)
 
 
     def screen_setup(self, screen):
@@ -55,8 +55,11 @@ class PlayingScreen(Screen):
         
         # Create grid
         self.grid_manager.create_grid(screen, self.accent_color)
-        self.grid_sprites.add(self.grid_manager.grid.get_sprites())
+        self.sprites.add(self.grid_manager.grid.get_sprites())
 
+        # Choose random starter
+        self.game.choose_starter()
+        
         self.initialized = True
         
 
@@ -65,18 +68,32 @@ class PlayingScreen(Screen):
         if self.grid_manager.clicked_in_cell(click_pos):
             # Get clicked cell and place marker
             x_idx, y_idx = self.grid_manager.get_cell_clicked(click_pos)
-            print(f'Cell clicked: ({x_idx}, {y_idx})')
             cell_coordinates = self.grid_manager.get_cell_coordinates()
-            print('Cell coordinates: ', cell_coordinates)
             cell_coord = cell_coordinates[y_idx][x_idx]
-            print('Cell coord gathered: ', cell_coord)
 
-            cross = Renderer.create_cross(
-                position=cell_coord,
+            self.place_mark(cell_coord, self.game.current_player.mark)
+            self.game.switch_player()
+
+            
+
+
+    def place_mark(self, position, mark):
+        if mark == 'X':
+            sprites = Renderer.create_cross(
+                position=position,
                 line_length= self.grid_manager.grid.size // 3,
                 line_width= self.grid_manager.grid.line_width,
                 color=self.accent_color
+            ).get_sprites()
+
+        if mark == 'O':
+            sprites = Renderer.create_circle(
+                position=position,
+                size=(self.grid_manager.grid.size // 3) \
+                    - (self.grid_manager.grid.line_width * 2),
+                line_width=self.grid_manager.grid.line_width,
+                color=self.accent_color
             )
 
-            self.grid_sprites.add(cross.get_sprites())
-
+        self.sprites.add(sprites)
+    

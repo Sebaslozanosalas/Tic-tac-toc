@@ -3,6 +3,8 @@ from screens import *
 from settings import *
 
 import pygame
+import os
+import random
 
 class App:
     def __init__(self):
@@ -20,6 +22,20 @@ class App:
         self.all_sprites = pygame.sprite.Group()
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.clock = pygame.time.Clock()
+
+        # Initialize Pygame mixer and load music
+        pygame.mixer.init()
+        # Read music files
+        music_folder = 'assets/music'
+        music_files = [f for f in os.listdir(music_folder) if f.endswith(('.mp3', '.wav'))]
+        # Select random track
+        if music_files:
+            random_music_file = os.path.join(music_folder, random.choice(music_files))
+            pygame.mixer.music.load(random_music_file)
+        # Play the music
+
+        pygame.mixer.music.set_volume(.5)
+        pygame.mixer.music.play(-1)  # -1 to loop indefinitely
         
         # Create SettingsmManager
         self.settings_manager = SettingsManager()
