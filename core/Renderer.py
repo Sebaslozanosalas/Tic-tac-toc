@@ -41,26 +41,6 @@ class Renderer:
 
 
     @staticmethod
-    def create_grid(screen, grid_color, grid_margin_ratio):
-        screen_width = screen.get_width()
-        screen_height = screen.get_height()
-        # Game grid
-        grid_margin = int(screen_width * grid_margin_ratio)
-        grid_size = screen_width - (grid_margin * 2)
-        grid_line_width = grid_margin // 2
-        grid_xpos = grid_margin
-        grid_ypos = int(screen_height - grid_margin - grid_size)
-
-        return Grid(
-            grid_xpos = grid_xpos,
-            grid_ypos = grid_ypos,
-            grid_size = grid_size,
-            grid_margin = grid_margin,
-            grid_line_width = grid_line_width,
-            grid_color = grid_color
-        )
-    
-    @staticmethod
     def draw_marker_on_board(self, pos, mark, color):
         if mark == 'X':
             self.create_cross()

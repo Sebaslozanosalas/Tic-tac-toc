@@ -7,12 +7,13 @@ import pygame
 class PlayingScreen(Screen):
     def __init__(self, screen_manager, settings_manager, game):
         super().__init__(screen_manager, settings_manager)
-        self.load_configuration_file()
         self.game = game
+        self.grid_manager = GridManager()
 
-        # Load colors
-        self.background_color = self.settings.get('styles').get('background_color')
-        self.accent_color = self.settings.get('styles').get('accent_color')
+        # Load settings and colors
+        self.styles = self.settings_manager.get_settings().get('styles')
+        self.background_color = self.styles.get('background_color')
+        self.accent_color = self.styles.get('accent_color')
 
         self.grid = None
         self.grid_sprites = pygame.sprite.Group()
@@ -31,7 +32,7 @@ class PlayingScreen(Screen):
 
 
     def update(self, dt):
-        self.sprites.update(dt)
+        self.grid_sprites.update(dt)
 
 
     def draw(self, screen):
@@ -52,59 +53,30 @@ class PlayingScreen(Screen):
         self.screen_width = screen.get_width()
         self.screen_height = screen.get_height()
         
-        self.create_grid(screen)
+        # Create grid
+        self.grid_manager.create_grid(screen, self.accent_color)
+        self.grid_sprites.add(self.grid_manager.grid.get_sprites())
 
         self.initialized = True
         
 
-    def load_configuration_file(self):
-        self.settings = self.settings_manager.get_settings()
-        
-        
-    def create_grid(self, screen):
-        grid_margin = 0.05
-        grid_color = self.accent_color
-        self.grid = Renderer.create_grid(screen, grid_color, grid_margin)
-        self.grid_sprites.add(self.grid.get_sprites())
-
-
     def handle_clicks(self, click_pos):
-        if self.clicked_in_cell(click_pos):
-            cell_idxs = self.get_cell_clicked(click_pos)
-            # self.place_mark(cell_idxs, 'X')
+        # If clicked in a cell
+        if self.grid_manager.clicked_in_cell(click_pos):
+            # Get clicked cell and place marker
+            x_idx, y_idx = self.grid_manager.get_cell_clicked(click_pos)
+            print(f'Cell clicked: ({x_idx}, {y_idx})')
+            cell_coordinates = self.grid_manager.get_cell_coordinates()
+            print('Cell coordinates: ', cell_coordinates)
+            cell_coord = cell_coordinates[y_idx][x_idx]
+            print('Cell coord gathered: ', cell_coord)
 
+            cross = Renderer.create_cross(
+                position=cell_coord,
+                line_length= self.grid_manager.grid.size // 3,
+                line_width= self.grid_manager.grid.line_width,
+                color=self.accent_color
+            )
 
-    def get_cell_clicked(self, click_pos):
-        x_click_pos, y_click_pos = click_pos
+            self.grid_sprites.add(cross.get_sprites())
 
-        x_limits, y_limits = self.grid.get_cell_limits()
-        print(f'click_position: {click_pos}')
-
-        for i in range(3):
-            if x_click_pos < x_limits[i]:
-                x_cell_idx = i 
-                break
-        for i in range(3):
-            if y_click_pos < y_limits[i]:
-                y_cell_idx = i 
-                break
-        
-        print(x_cell_idx, y_cell_idx)
-        return (x_cell_idx, y_cell_idx)
-        
-
-    def clicked_in_cell(self, click_pos):
-        x_click_pos, y_click_pos = click_pos
-        # Validate x position inside grid
-        if x_click_pos > self.grid.grid_xpos \
-            and x_click_pos < (self.grid.grid_xpos + self.grid.grid_size):
-            # Validate y position inside grid
-            if y_click_pos > self.grid.grid_ypos \
-                and y_click_pos < (self.grid.grid_ypos + self.grid.grid_size):
-                return True
-        return False
-    
-
-    def place_mark(self, cell_idxs, mark):
-        pass
-        # Renderer.draw_marker_on_board()
