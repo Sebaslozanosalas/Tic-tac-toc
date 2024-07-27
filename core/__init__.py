@@ -1,4 +1,3 @@
-from core.game import Game
-from core.board import Board
-from core.gui import GUI
-from core.player import Player
+from .game import Game
+from .renderer import Renderer
+from .grid_manager import GridManager

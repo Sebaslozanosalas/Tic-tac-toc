@@ -4,7 +4,8 @@
         "height": 700
     },
     "styles":{
-        "background_color": "#262626",
-        "accent_color":"#FF914D"
+        "background_color": "#020314",
+        "accent_color":"#fde91f",
+        "accent_darker":"#9da222"
     }
 }

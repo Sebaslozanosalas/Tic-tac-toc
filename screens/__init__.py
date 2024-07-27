@@ -1,6 +1,7 @@
-from screens.screen_manager import ScreenManager
-from screens.screen import Screen
+from .screen_manager import ScreenManager
 
-from screens.playing_screen import PlayingScreen
-from screens.welcome_screen import WelcomeScreen
-from screens.selection_screen import SelectionScreen
+from .screen import Screen
+
+from .welcome_screen import WelcomeScreen
+from .selection_screen import SelectionScreen
+from .playing_screen import PlayingScreen

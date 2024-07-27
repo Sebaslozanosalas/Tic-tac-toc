@@ -1,17 +1,11 @@
-from core.board import Board
-from core.player import Player
+from models import *
+
+from random import choice
 
 class Game:
     def __init__(self):
         self.board = Board()
         self.players = []
-        self.current_player = None 
-        self.keep_playing = True
-        self.running = True
-
-
-    def round_ended(self):        
-        pass
 
 
     def new_round(self):
@@ -19,17 +13,9 @@ class Game:
 
 
     def switch_player(self):
-        pass
+        self.current_player = self.players[1] if self.current_player == self.players[0] else self.players[0]
 
-
-    def get_players_data(self):
-        pass
-
-
-    def end_game(self):
-        pass
-
-
-    def set_round_starter():
-        pass
+    
+    def choose_starter(self):
+        self.current_player = choice(self.players)
 
