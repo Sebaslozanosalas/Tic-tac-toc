@@ -1,5 +1,5 @@
 from screens.screen import Screen
-from core.gui import GUI
+from core.Renderer import Renderer
 
 import pygame
 
@@ -37,12 +37,12 @@ class PlayingScreen(Screen):
         if not self.initialized:
             self.screen_setup(screen)
 
-        GUI.draw_background(screen, self.background_color)
+        Renderer.draw_background(screen, self.background_color)
 
-        GUI.draw_title(screen, 'Playing...', self.accent_color, (self.screen_width // 2, 100), 45)
+        Renderer.draw_title(screen, 'Playing...', self.accent_color, (self.screen_width // 2, 100), 45)
 
         heading = f'{self.game.players[0]}   VS   {self.game.players[1]}'
-        GUI.draw_title(screen, heading, self.accent_color, (self.screen_width // 2, 160), 20)
+        Renderer.draw_title(screen, heading, self.accent_color, (self.screen_width // 2, 160), 20)
         
         self.grid_sprites.draw(screen)
 
@@ -63,7 +63,7 @@ class PlayingScreen(Screen):
     def create_grid(self, screen):
         grid_margin = 0.05
         grid_color = self.accent_color
-        self.grid = GUI.create_grid(screen, grid_color, grid_margin)
+        self.grid = Renderer.create_grid(screen, grid_color, grid_margin)
         self.grid_sprites.add(self.grid.get_sprites())
 
 
@@ -106,4 +106,4 @@ class PlayingScreen(Screen):
 
     def place_mark(self, cell_idxs, mark):
         pass
-        # GUI.draw_marker_on_board()
+        # Renderer.draw_marker_on_board()

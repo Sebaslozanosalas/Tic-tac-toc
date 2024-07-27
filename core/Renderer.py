@@ -3,10 +3,8 @@ from shapes.circle import Circle
 from shapes.grid import Grid
 
 import pygame
-from random import choice
 
-
-class GUI:
+class Renderer:
 
     @staticmethod
     def draw_title(screen, title, color, position, font_size=32):

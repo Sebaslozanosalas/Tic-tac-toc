@@ -35,11 +35,11 @@ class SelectionScreen(Screen):
         self.accent_color = self.settings.get('styles').get('accent_color')
 
         # Draw the background
-        GUI.draw_background(screen, self.background_color)
+        Renderer.draw_background(screen, self.background_color)
 
         # Texts
-        GUI.draw_title(screen, 'Player 1, choose your Mark',self.accent_color, (self.screen_width // 2, 100), 30)
-        GUI.draw_title(screen, 'or press enter for random', self.accent_color, (self.screen_width // 2, 130), 16)
+        Renderer.draw_title(screen, 'Player 1, choose your Mark',self.accent_color, (self.screen_width // 2, 100), 30)
+        Renderer.draw_title(screen, 'or press enter for random', self.accent_color, (self.screen_width // 2, 130), 16)
 
         # Markers to choose
         self.draw_markers_to_choose()
@@ -58,13 +58,13 @@ class SelectionScreen(Screen):
         first_pos = side_offset + (container_third) 
         second_pos = side_offset + (container_third * 2)
 
-        self.cross = GUI.create_cross(
+        self.cross = Renderer.create_cross(
             position=(first_pos, self.screen_height // 2),
             line_length=100,
             line_width=10,
             color=self.accent_color
         )
-        self.circle = GUI.create_circle(
+        self.circle = Renderer.create_circle(
             position=(second_pos, self.screen_height // 2),
             size=80,
             line_width=10,
