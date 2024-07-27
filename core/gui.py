@@ -23,17 +23,18 @@ class GUI:
 
 
     @staticmethod
-    def draw_cross(position, line_size, color):
+    def create_cross(position, line_length, line_width, color):
         cross = Cross(
             position=position,
-            line_size=line_size,
+            line_length=line_length,
+            line_width=line_width,
             color=color
         )
         return cross
     
 
     @staticmethod
-    def draw_circle(position, size, line_width, color):
+    def create_circle(position, size, line_width, color):
         circle = Circle(
             position=position,
             size=size,
@@ -42,20 +43,46 @@ class GUI:
         )
         return circle
 
+
+    @staticmethod
+    def create_grid(screen, grid_color, grid_margin_ratio):
+        screen_width = screen.get_width()
+        screen_height = screen.get_height()
+        # Game grid
+        grid_margin = int(screen_width * grid_margin_ratio)
+        grid_size = screen_width - (grid_margin * 2)
+        grid_line_width = grid_margin // 2
+        grid_xpos = grid_margin
+        grid_ypos = int(screen_height - grid_margin - grid_size)
+
+        return Grid(
+            grid_xpos = grid_xpos,
+            grid_ypos = grid_ypos,
+            grid_size = grid_size,
+            grid_margin = grid_margin,
+            grid_line_width = grid_line_width,
+            grid_color = grid_color
+        )
+    
+    def draw_marker_on_board(self, pos, mark, color):
+        if mark == 'X':
+            self.create_cross()
+        if mark == 'O':
+            self.create_circle()
+
+
+
     # def __init__(self):
     #     self.width = 500
     #     self.height = 700
-
     #     self.color_darker = '#262626'
     #     self.color_dark = '#4C4C4C'
     #     self.color_accent = "#FF914D"
-
     #     self.screen = None
     #     self.clock = None
     #     self.running = True
     #     self.dt = 0
     #     self.fps = 60
-
 
 
     # def setup(self):
@@ -90,32 +117,6 @@ class GUI:
     #     self.all_sprites.draw(self.screen)
     #     pygame.display.update()
 
-    # @staticmethod
-    # def draw_grid():
-    #     screen_width, screen_height = self.screen.get_width(), self.screen.get_height()
-
-    #     # Constants
-    #     GRID_MARGIN_RATIO = 0.05
-    #     GRID_COLOR = self.color_accent
-
-    #     # Game grid
-    #     grid_margin = int(screen_width * GRID_MARGIN_RATIO)
-
-    #     grid_size = screen_width - (grid_margin * 2)
-    #     grid_line_width = grid_margin // 2
-    #     grid_xpos = grid_margin
-    #     grid_ypos = int(screen_height - grid_margin - grid_size)
-
-    #     self.grid = Grid(
-    #         grid_xpos = grid_xpos,
-    #         grid_ypos = grid_ypos,
-    #         grid_size = grid_size,
-    #         grid_margin = grid_margin,
-    #         grid_line_width = grid_line_width,
-    #         grid_color = GRID_COLOR
-    #     )
-    #     self.all_sprites.add(self.grid.get_sprites())
-
 
     # @staticmethod
     # def draw_shapes():
@@ -135,6 +136,3 @@ class GUI:
     #                 color=self.grid.grid_color
     #             )
     #             self.all_sprites.add(circle)
-
-
-

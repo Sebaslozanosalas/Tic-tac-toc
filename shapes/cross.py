@@ -3,17 +3,18 @@ from shapes.line import Line
 import pygame
 
 class Cross:  
-    def __init__(self, position, line_size, color='white'):
+    def __init__(self, position, line_length, line_width, color='white'):
         self.all_sprites = pygame.sprite.Group()
         self.color = color
-        self.create(position, line_size)
+        self.create(position, line_length, line_width)
 
 
-    def create(self, position, line_size):
+    def create(self, position, line_length, line_width):
         # Line 1 
         line_1 = Line(
             position=position,
-            line_size=line_size,
+            line_length=line_length,
+            line_width=line_width,
             color=self.color
         )
         line_1.rotate(-45)
@@ -22,7 +23,8 @@ class Cross:
         # Line 2
         line_2 = Line(
             position=position,
-            line_size=line_size,
+            line_length=line_length,
+            line_width=line_width,
             color=self.color
         )
         line_2.rotate(45)

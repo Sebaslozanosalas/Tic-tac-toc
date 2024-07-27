@@ -25,12 +25,14 @@ class Grid:
         for i in range(1, 3):
             h_line = Line(
                 position = (self.grid_xpos + grid_center, self.grid_ypos + (self.grid_cell_size * i)),
-                line_size = (self.grid_size, self.grid_line_width),
+                line_length=self.grid_size,
+                line_width=self.grid_line_width,
                 color = self.grid_color
             )
             v_line = Line(
                 position = (self.grid_margin + (self.grid_cell_size * i), self.grid_ypos + grid_center),
-                line_size = (self.grid_line_width, self.grid_size),
+                line_length=self.grid_line_width,
+                line_width=self.grid_size,
                 color = self.grid_color
             )
             self.all_sprites.add(h_line, v_line)
@@ -50,8 +52,7 @@ class Grid:
         self.all_sprites.add(bg_sprite)
 
 
-    def get_cell_coordinates(self) -> list[tuple]:
-        
+    def get_cell_coordinates(self):
         # Calculate X positions
         x_start = self.grid_xpos + (self.grid_cell_size // 2)
         x_positions = [x_start + (self.grid_cell_size * i) for i in range(3)]
@@ -68,3 +69,8 @@ class Grid:
 
         return all_positions
     
+
+    def get_cell_limits(self):
+        x_limits = [self.grid_xpos + (self.grid_cell_size * i) for i in range(1, 4)]
+        y_limits = [self.grid_ypos + (self.grid_cell_size * i) for i in range(1, 4)]
+        return(x_limits, y_limits)

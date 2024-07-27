@@ -13,13 +13,12 @@ class SelectionScreen(Screen):
 
 
     def handle_events(self, event):
-        # Choose shape
+        # Handle click 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if not bool(self.game.players):
-                print(self.game.players)
                 click_pos = pygame.mouse.get_pos()
                 self.handle_shape_clicks(click_pos)
-        # Random shape
+        # Handle "Enter"
         if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
             self.choose_random_mark()
 
@@ -59,12 +58,13 @@ class SelectionScreen(Screen):
         first_pos = side_offset + (container_third) 
         second_pos = side_offset + (container_third * 2)
 
-        self.cross = GUI.draw_cross(
+        self.cross = GUI.create_cross(
             position=(first_pos, self.screen_height // 2),
-            line_size=(100, 10),
+            line_length=100,
+            line_width=10,
             color=self.accent_color
         )
-        self.circle = GUI.draw_circle(
+        self.circle = GUI.create_circle(
             position=(second_pos, self.screen_height // 2),
             size=80,
             line_width=10,
@@ -80,13 +80,11 @@ class SelectionScreen(Screen):
         self.create_players(choice(['X', 'O']))
 
 
-    def handle_shape_clicks(self, click_position):
+    def handle_shape_clicks(self, click_pos):
         selected_shape = None
-        if self.cross and self.cross.rect.collidepoint(click_position):
-            print("Cruz seleccionada")
+        if self.cross and self.cross.rect.collidepoint(click_pos):
             selected_shape = 'X'
-        elif self.circle and self.circle.rect.collidepoint(click_position):
-            print("Círculo seleccionado")
+        elif self.circle and self.circle.rect.collidepoint(click_pos):
             selected_shape = 'O'
 
         if selected_shape:
